@@ -25,6 +25,31 @@ struct ContentView: View {
   @State private var numberOfPeople = 2
   @State private var tipPercentage: TipPercentages = .fifteen
   
+  // relies on each of the @State properties. These are recomputed with each binding change
+  private var amountPerPerson: Double {
+    let orderAmount = Double(checkAmount) ?? 0.0
+    let peopleCount = numberOfPeople + 2
+    
+    var tipSelection = 1.0
+    
+    switch tipPercentage {
+      case .zero:
+        tipSelection = 0
+      case .ten:
+        tipSelection = 0.10
+      case .fifteen:
+        tipSelection = 0.15
+      case .twenty:
+        tipSelection = 0.20
+      case .twentyFive:
+        tipSelection = 0.25
+    }
+    
+    let tipValue = orderAmount * tipSelection
+    let grandTotal = orderAmount + tipValue
+    return grandTotal / Double(peopleCount)
+  }
+  
     var body: some View {
       
       NavigationView {
@@ -52,7 +77,7 @@ struct ContentView: View {
           }
           
           Section {
-            Text("$\(checkAmount)")
+            Text("$\(amountPerPerson, specifier: "%.2f")")
           }
           
         }.navigationTitle("We Split")
