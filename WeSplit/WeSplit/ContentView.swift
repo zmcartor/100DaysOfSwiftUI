@@ -33,8 +33,10 @@ struct ContentView: View {
           Section {
             TextField("Bill Amount", text: $checkAmount)
               .keyboardType(.decimalPad)
+          }
             
-            Text("Tip Amount")
+          // We can add headers and footers to sections
+          Section(header: Text("How big of a tip?")) {
             Picker("Tip Amount", selection: $tipPercentage) {
               ForEach(TipPercentages.allCases, id: \.self) { tip in
                 Text(tip.rawValue)
