@@ -76,7 +76,7 @@ struct ContentView: View {
             }
           }
           
-          Section {
+          Section(header: Text("Amount per person")) {
             Text("$\(amountPerPerson, specifier: "%.2f")")
           }
           
