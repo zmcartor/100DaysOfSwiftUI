@@ -7,6 +7,25 @@
 
 import SwiftUI
 
+// Custom view modifier to turn text blue and BIG
+
+struct BigBlue : ViewModifier {
+  
+  func body(content: Content) -> some View {
+    content
+      .font(.largeTitle)
+      .foregroundColor(.blue)
+  }
+}
+
+extension View {
+  
+  public func bigblue() -> some View {
+    return self.modifier(BigBlue())
+  }
+  
+}
+
 
 // Our custom container view
 
@@ -34,11 +53,11 @@ struct Gridstack<Content: View>: View {
 
 struct ContentView: View {
     var body: some View {
-      Gridstack(rows: 4, columns: 3) { row, column in
+      Gridstack(rows: 4, columns: 2) { row, column in
         VStack(alignment: .leading, spacing: 8) {
           Text("R: \(row) C: \(column)")
           Image(systemName: "\(row * 4 + column).circle")
-        }
+        }.bigblue()
       }
     }
 }
