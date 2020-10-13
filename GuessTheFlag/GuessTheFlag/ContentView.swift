@@ -7,6 +7,17 @@
 
 import SwiftUI
 
+// custom "modifier" that only applies to Image views. renderingMode() modifier only on Image
+extension Image {
+  func flagify() -> some View {
+    self
+      .renderingMode(.original)
+      .overlay(Rectangle().stroke(Color.black, lineWidth: 2))
+      .shadow(color: .black, radius: 2)
+  }
+}
+
+
 struct ExampleView: View {
   
   @State private var showingScore = false
@@ -37,10 +48,7 @@ struct ExampleView: View {
             Button(action: {
               flagTapped(number)
             }) { // button image content
-              Image(self.countries[number])
-                .renderingMode(.original)
-                .overlay(Rectangle().stroke(Color.black, lineWidth: 2))
-                .shadow(color: .black, radius: 2)
+              Image(self.countries[number]).flagify()
             }
           }
           Spacer()
