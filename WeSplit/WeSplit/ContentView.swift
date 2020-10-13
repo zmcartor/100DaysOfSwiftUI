@@ -19,6 +19,23 @@ enum TipPercentages: String, Identifiable, CaseIterable {
   var id: String { return self.rawValue }
 }
 
+struct MaybeRed : ViewModifier {
+  
+  @Binding var tip: TipPercentages
+  
+  func body(content: Content) -> some View {
+    if tip == .zero {
+      return content
+        .font(.largeTitle)
+        .foregroundColor(.red)
+    } else {
+      return content
+        .font(.body)
+        .foregroundColor(.black)
+    }
+  }
+}
+
 struct ContentView: View {
   
   @State private var checkAmount = ""
@@ -77,7 +94,7 @@ struct ContentView: View {
           }
           
           Section(header: Text("Amount per person")) {
-            Text("$\(amountPerPerson, specifier: "%.2f")")
+            Text("$\(amountPerPerson, specifier: "%.2f")").modifier(MaybeRed(tip: $tipPercentage))
           }
           
         }.navigationTitle("We Split")
